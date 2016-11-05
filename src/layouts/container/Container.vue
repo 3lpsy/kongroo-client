@@ -12,6 +12,9 @@
     import loader from "../../utils/loader";
 
     export default {
+        mounted () {
+            console.log(this.$store);
+        },
         components: {
             AppNavbar: loader.layout('navbar'),
             AppFooter: loader.layout('footer')

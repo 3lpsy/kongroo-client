@@ -14,7 +14,7 @@ const articleIndex = () => {
     return {
         path: "/articles",
         name: "article.index",
-        component: loader.page("article", "index"),
+        component: loader.page('article', 'index'),
         beforeEnter: beforeEnter,
         beforeRouteLeave: beforeRouteLeave,
         meta: {

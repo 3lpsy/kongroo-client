@@ -19,20 +19,12 @@ Vue.http.interceptors.push((request, next) => {
 })
 
 // mock data
-if (process.env.NODE_ENV !== 'production') {
-    require('./mock-data')
+if (process.env.API_SRC === 'mock') {
+    require('./../mock/api/api')
 }
 
-export const Message = Vue.resource(API_ROOT + '/messages{/id}')
+export const Article = Vue.resource(API_ROOT + '/article/{/id}');
 
-export const Account = Vue.resource(API_ROOT + '/accounts{/id}')
-
-export const Auth = Vue.resource(API_ROOT + '/auth', {}, {
-    login: {
-        method: 'post',
-        url: '/auth/local'
-    }
-})
 
 export const init = function() {
     return "api";

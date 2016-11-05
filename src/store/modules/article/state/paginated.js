@@ -8,9 +8,8 @@ export default {
             totalPages: 0,
             hasMore: true
         },
-        filters: {
-            tags: [],
-            allTags: false
+        query: {
+            
         },
         isFirstLoaded: false,
         isLoading: true,

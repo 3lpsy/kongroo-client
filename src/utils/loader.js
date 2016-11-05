@@ -14,9 +14,11 @@ export default {
     container() {
         return require("./../layouts/container/Container.vue");
     },
+
     layout(layout) {
         return require(`./../layouts/${layout}/${cap(layout)}.vue`);
     },
+
     page (main, page) {
         return require(`./../pages/${main}/${page}/${cap(page)}.vue`);
     },
@@ -65,8 +67,12 @@ export default {
     },
 
     provider (name) {
-        return require(`./../${name}/index.js`);
+        return require(`./../${name}/index.js`).default;
     },
+    api() {
+        return require(`./../api/index`);
+    },
+
 
     helper (name) {
         return require(`./../helpers/${name}.js`);

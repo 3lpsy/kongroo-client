@@ -8,10 +8,10 @@ export default {
             totalPages: 0,
             hasMore: true
         },
-        filters: {
+        query: {
         },
         isFirstLoaded: false,
         isLoading: true,
         isComplete: false
     }
-}
+};

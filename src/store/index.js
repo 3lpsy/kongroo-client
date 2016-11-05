@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from "vuex";
-import * as actions from "./actions";
-import * as getters from "./getters";
-import plugins from "./plugins/index";
+// import * as actions from "./actions";
+// import * as getters from "./getters";
+// import plugins from "./plugins/index";
 import article from "./modules/article";
 import tag from "./modules/tag";
 
@@ -14,12 +14,12 @@ export default new Vuex.Store({
     /**
      * Assign the actions to the store
      */
-    actions,
+    // actions,
 
     /**
      * Assign the getters to the store
      */
-    getters,
+    // getters,
 
     /**
      * Assign the modules to the store
@@ -38,5 +38,5 @@ export default new Vuex.Store({
     /**
      * Plugins for Vuex
      */
-    plugins: plugins
+    // plugins: plugins
 });

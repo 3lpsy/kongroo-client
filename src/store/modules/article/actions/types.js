@@ -1,1 +1,2 @@
-export const TOGGLE_SIDEBAR = "article/actions/GET_PAGINATED_ARTICLES";
+export const GET_PAGINATED_ARTICLES = "article/actions/getPaginatedArticles";
+export const QUERY_PAGINATED_ARTICLES = "article/actions/queryPaginated";
