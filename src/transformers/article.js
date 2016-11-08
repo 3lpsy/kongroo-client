@@ -1,6 +1,6 @@
 
 import Transformer from "./transformer";
-
+import moment from 'moment';
 export default class ArticleTransformer extends Transformer {
 
     static get (article) {
@@ -12,7 +12,8 @@ export default class ArticleTransformer extends Transformer {
             status: article.status,
             tags: article.tags,
             author: article.author,
-            publishedAt: article.publishedAt
+            publishedAt: article.publishedAt,
+            timestamp: moment().format('X')
         };
     }
 

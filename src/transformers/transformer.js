@@ -1,6 +1,4 @@
 
-import filterUnique from "../utils/filters/filterUnique";
-
 export default class Transformer {
 
     static getCollection (items) {
@@ -21,9 +19,5 @@ export default class Transformer {
         });
 
         return newCollection;
-    }
-
-    static filterUnique (items, filter, prop) {
-        return filterUnique(items, filter, prop);
     }
 }

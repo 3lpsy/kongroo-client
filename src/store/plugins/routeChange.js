@@ -7,8 +7,7 @@ export default () => {
             if (mutation.type === "router/ROUTE_CHANGED") {
 
                 console.log(mutation);
-                console.log(state.route.fullPath);
-
+                
             }
 
         });

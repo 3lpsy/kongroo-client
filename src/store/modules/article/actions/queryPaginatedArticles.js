@@ -1,29 +1,33 @@
 import * as mutations from "./../mutations/types";
-
 import * as api from "./../../../../api/index";
+import transformer from "./../../../../transformers/article";
 
-const queryPaginatedArticlesSuccess = (response, store, append) => {
-    console.log(mutations);
+const queryPaginatedArticlesSuccess = (response, context, append) => {
+    let articles = transformer.getCollection(response.data.articles)
+    context.commit(mutations.SET_PAGINATED_ARTICLES_SUCCESS, articles, response.data.meta);
+    context.commit(mutations.APPEND_ARTICLE_REPOSITORY_SUCCESS, articles);
     console.log('query success');
 }
 
-const queryPaginatedArticlesFailure = (response, store) => {
+const queryPaginatedArticlesFailure = (error, context) => {
+    console.log(error);
     console.log('query failure');
 }
 
-export const queryPaginatedArticles = (store, meta, filters) => {
+export const queryPaginatedArticles = (context, meta, filters) => {
 
     return new Promise( (resolve, reject) => {
 
         const query = Object.assign(meta, filters);
+
         return api.Article.query(query)
-            .then(response => {
-                queryPaginatedArticlesSuccess(response, store)
+            .then((response) => {
+                queryPaginatedArticlesSuccess(response, context)
                 resolve();
             })
-            .catch(response => {
-                queryPaginatedArticlesFailure(response, store)
-                reject();
+            .catch((error) => {
+                queryPaginatedArticlesFailure(error, context)
+                reject(error);
             });
 
     });

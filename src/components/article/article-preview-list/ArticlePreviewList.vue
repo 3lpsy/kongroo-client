@@ -1,73 +1,87 @@
 <template>
     <div>
         <transition-group appear name="slide-fade" mode="out-in">
-            <article-preview
+            <!-- <article-preview
                 v-for="article in articles"
                 :data-article="article"
                 key="show"
-            >
-            </article-preview>
-            <infinite-loading
-                :on-infinite="onInfinite"
-                :v-is-loading="paginatedArticlesIsLoading"
-                :v-is-complete="paginatedArticlesIsComplete"
-                :v-is-first-loaded="paginatedArticlesIsFirstLoaded"
-                :v-is-empty="paginatedArticlesIsEmpty"
-                key="load">
-            </infinite-loading>
+            > -->
+            <!-- </article-preview> -->
+            <mugen-scroll :handler="onInfinite" :should-handle="!loading" key="loading">
+              loading...
+            </mugen-scroll>
         </transition-group>
     </div>
 </template>
 
 <script>
 import loader from "../../../utils/loader";
+import MugenScroll from 'vue-mugen-scroll'
 
 export default {
 
     data() {
         return {
+            loading: false,
+            routeTags: [],
+            routePage: 1,
+            routeLimit: 15
         };
     },
 
     computed: {
-        articles () {
-            return this.$store.getters.paginatedArticles;
-        },
-        paginatedArticlesIsLoading() {
-            return this.$store.getters.paginatedArticlesIsLoading;
-        },
-        paginatedArticlesIsComplete() {
-            return this.$store.getters.paginatedArticlesIsComplete;
-        },
-        paginatedArticlesIsFirstLoaded() {
-            return this.$store.getters.paginatedArticlesIsFirstLoaded;
-        },
-        paginatedArticlesIsEmpty() {
-            return this.$store.getters.paginatedArticlesIsEmpty;
-        },
-        canInfiniteLoad() {
-            return !this.paginatedArticlesIsLoading && !this.paginatedArticlesIsComplete && this.paginatedArticlesIsFirstLoaded;
-        },
-        tags() {
-            return this.$route.query["tags[]"] || [];
-        },
-        nextPage() {
-            let currentPage = this.$route.query.page || 1;
-            return currentPage + 1;
-        }
     },
 
     methods: {
-        getNextPaginatedArticles(...args) {
-            this.$store.dispatch('getNextPaginatedArticles', ...args)
+        onInfinite() {
+            this.queryPaginatedArticles();
+            // increment page
+            // check history of repo for query
+            // if the query is not in the repo
+            // run query, add to repo
         },
-        onInfinite(){
-            if (this.canInfiniteLoad) {
-                this.$router.push({query: { page: this.nextPage }});
+        updateRouteTagFilters() {
+            let routeTags = this.$route.query["tags[]"];
+            let tagsType = typeof routeTags;
+            let tags = tagsType !== 'array' ? routeTags : [routeTags];
+            this.routeTags = tags;
+        },
+        updateRoutePage() {
+            let routePage = this.$route.query.page;
+            this.routePage = routePage || 1;
+        },
+        updateRouteLimit() {
+            let routeLimit = this.$route.query.limit;
+            this.routeLimit = routeLimit || 5;
+        },
+        queryPaginatedArticles() {
+            let meta = {
+                limit: this.routeLimit,
+                page: this.routePage
             }
-        }
-
+            let filters = {
+                tags: this.routeTags
+            }
+            this.loading = true;
+            this.$store.dispatch('article/actions/queryPaginated', meta, filters).then(() => {
+                console.log("should stop loading")
+                this.loading = false;
+            }).catch( (error) => {
+                this.loading = false;
+                console.log(error);
+            });
+        },
     },
+
+    watch: {
+        '$route': function() {
+            this.updateRouteTagFilters();
+            this.updateRoutePage();
+            this.updateRouteLimt();
+            this.queryPaginatedArticles();
+        }
+    },
+
 
     beforeCreated(){
 
@@ -82,7 +96,10 @@ export default {
     },
 
     mounted() {
-
+        this.updateRouteTagFilters();
+        this.updateRoutePage();
+        this.updateRouteLimit();
+        this.queryPaginatedArticles();
     },
 
     beforeDestroy() {
@@ -91,7 +108,7 @@ export default {
 
     components: {
         ArticlePreview: loader.component("article", "article-preview"),
-        InfiniteLoading: loader.ui("infinite-loading"),
+        MugenScroll,
     }
 };
 </script>

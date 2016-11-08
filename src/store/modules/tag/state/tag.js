@@ -1,5 +1,8 @@
 export default {
     data: {
 
+    },
+    meta: {
+        
     }
 }

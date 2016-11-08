@@ -13,7 +13,6 @@
 
     export default {
         mounted () {
-            console.log(this.$store);
         },
         components: {
             AppNavbar: loader.layout('navbar'),

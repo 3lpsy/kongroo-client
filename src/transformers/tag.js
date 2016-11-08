@@ -1,12 +1,15 @@
 
 import Transformer from "./transformer";
+import moment from 'moment';
 
 export default class TagTransformer extends Transformer {
 
     static get (tag) {
         return {
             id: tag.id,
-            name: tag.name
+            name: tag.name,
+            timestamp: moment().format('X')
+
         };
     }
 

@@ -7,8 +7,7 @@ let store = loader.provider("store");
 let router = loader.provider("router");
 
 let api = loader.api();
-console.log(api.init());
-
+api.init();
 let rootComponent = require("./App.vue");
 
 sync(store, router)

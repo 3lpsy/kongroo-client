@@ -5,5 +5,5 @@ import repository from "./repository";
 export const state = {
     paginated: paginated,
     article: article,
-    respository: repository
+    repository: repository
 };

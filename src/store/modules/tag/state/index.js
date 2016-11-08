@@ -1,7 +1,9 @@
 import tag from "./tag";
-import paginated from "./paginated";
+import all from "./all";
+import repository from "./repository";
 
 export const state = {
-    paginated: paginated,
-    tag: tag
+    all: all,
+    tag: tag,
+    repository: repository
 };

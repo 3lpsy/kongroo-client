@@ -1,7 +1,8 @@
-import {getPaginatedTags as getPaginatedTagsMethod} from "./getPaginatedTags";
+import * as types from "./types";
+import {getAllTags} from './getAllTags';
+import {getTag} from './getTag';
 
-export const getPaginatedTags = getPaginatedTagsMethod;
-
-import {getTag as getTagMethod} from "./getTag";
-
-export const getTag = getTagMethod;
+export const actions = {
+    [types.GET_ALL_TAGS]: getAllTags,
+    [types.GET_TAG]: getTag
+}

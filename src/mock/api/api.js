@@ -11,6 +11,7 @@ const getMocker = (path) => {
 
 Vue.http.interceptors.push((request, next) => {
     console.log(request);
+    console.log("Mock Intercept");
     var url = request.getUrl()
     var path = url.replace(API_ROOT, '')
     var mock = getMocker(path);
