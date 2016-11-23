@@ -4,7 +4,8 @@ import transformer from "./../../../../transformers/article";
 
 const queryPaginatedArticlesSuccess = (response, context, append) => {
     let articles = transformer.getCollection(response.data.articles)
-    context.commit(mutations.SET_PAGINATED_ARTICLES_SUCCESS, articles, response.data.meta);
+    let meta = response.data.meta;
+    context.commit(mutations.SET_PAGINATED_ARTICLES_SUCCESS, {articles, meta});
     context.commit(mutations.APPEND_ARTICLE_REPOSITORY_SUCCESS, articles);
     console.log('query success');
 }
@@ -20,7 +21,7 @@ export const queryPaginatedArticles = (context, meta, filters) => {
 
         const query = Object.assign(meta, filters);
 
-        return api.Article.query(query)
+        return api.Article.get(query)
             .then((response) => {
                 queryPaginatedArticlesSuccess(response, context)
                 resolve();
@@ -31,7 +32,5 @@ export const queryPaginatedArticles = (context, meta, filters) => {
             });
 
     });
-
-
 
 };

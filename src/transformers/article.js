@@ -12,8 +12,11 @@ export default class ArticleTransformer extends Transformer {
             status: article.status,
             tags: article.tags,
             author: article.author,
+            createdAt: article.createdAt,
+            updatedAt: article.updatedAt,
+            queriedAt: article.queriedAt,
             publishedAt: article.publishedAt,
-            timestamp: moment().format('X')
+            transformedAt: moment().format('X')
         };
     }
 

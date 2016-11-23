@@ -1,13 +1,19 @@
 <template>
     <div>
         <transition-group appear name="slide-fade" mode="out-in">
+            <div v-if="articleRepoArticles.length > 0" v-for="article in articleRepoArticles" :key="article.id">
+                <p>
+                    {{article.id}}: {{article.title}}
+
+                </p>
+            </div>
             <!-- <article-preview
-                v-for="article in articles"
+                v-for="article in articleRepoArticles"
                 :data-article="article"
                 key="show"
             > -->
             <!-- </article-preview> -->
-            <mugen-scroll :handler="onInfinite" :should-handle="!loading" key="loading">
+            <mugen-scroll :handler="onInfinite" :should-handle="!loading && isMorePagesExist" key="loading">
               loading...
             </mugen-scroll>
         </transition-group>
@@ -30,10 +36,32 @@ export default {
     },
 
     computed: {
+        articleRepoArticles() {
+            if (this.articleRepo) {
+                return this.articleRepo.data;
+            }
+            return []
+        },
+        isMorePagesExist() {
+            if (this.paginatedMeta && this.paginatedMeta.pagination){
+                return !! this.paginatedMeta.pagination.hasMore;
+            }
+            return false;
+        },
+        articleRepo() {
+            return this.$store.getters['article/getters/articleRepository'];
+        },
+        paginatedArticles() {
+            return this.$store.getters['article/getters/paginatedArticles'];
+        },
+        paginatedMeta() {
+            return this.$store.getters['article/getters/paginatedMeta'];
+        },
     },
 
     methods: {
         onInfinite() {
+            console.log('on-infinite');
             this.queryPaginatedArticles();
             // increment page
             // check history of repo for query
@@ -64,7 +92,7 @@ export default {
             }
             this.loading = true;
             this.$store.dispatch('article/actions/queryPaginated', meta, filters).then(() => {
-                console.log("should stop loading")
+                console.log("article/actions/queryPaginated complete")
                 this.loading = false;
             }).catch( (error) => {
                 this.loading = false;

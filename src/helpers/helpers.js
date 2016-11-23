@@ -19,4 +19,3 @@ const folder2FileName = (folder) => {
 }
 
 export default {cap, folder2FileName, csv, decap};
-

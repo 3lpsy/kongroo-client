@@ -1,6 +1,8 @@
 export default {
     data: [],
     meta: {
-        pagination: {},
+        pagination: {
+            hasMore: true
+        },
     }
 }
