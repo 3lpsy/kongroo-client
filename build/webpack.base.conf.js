@@ -16,11 +16,15 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      'vue': 'vue/dist/vue.js',
+      'vue': 'vue/dist/vue.common.js',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
-      'components': path.resolve(__dirname, '../src/components'),
-      'views': path.resolve(__dirname, '../src/views')
+      'pages': path.resolve(__dirname, '../src/pages'),
+      'common': path.resolve(__dirname, '../src/modules/common'),
+      'vb': path.resolve(__dirname, '../src/modules/vb'),
+      'article': path.resolve(__dirname, '../src/modules/article'),
+      'tag': path.resolve(__dirname, '../src/modules/tag')
+
     }
   },
   resolveLoader: {

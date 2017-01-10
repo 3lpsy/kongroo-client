@@ -1,6 +1,6 @@
 <template>
     <div>
-        <app-view>
+        <!-- <app-view>
             <section class="hero is-primary">
                 <div class="hero-body">
                     <div class="container has-text-centered">
@@ -39,12 +39,11 @@
                 <article-show>
                 </article-show>
             </div>
-        </app-view>
+        </app-view> -->
     </div>
 </template>
 
 <script>
-import loader from "../../../utils/loader";
 
 export default {
 
@@ -118,8 +117,8 @@ export default {
     },
 
     mounted() {
-        this.getArticle(this.$route.params.articleId);
-        this.getPaginatedTags({});
+        // this.getArticle(this.$route.params.articleId);
+        // this.getPaginatedTags({});
 
     },
 
@@ -128,9 +127,7 @@ export default {
     },
 
     components: {
-        AppView: loader.container(),
-        ArticleShow: loader.component("article", "article-show"),
-        AppLink: loader.link()
+
     }
 };
 </script>

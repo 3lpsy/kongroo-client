@@ -1,19 +1,24 @@
 
 import Vue from 'vue'
-import sync from './sync/index';
-import loader from "./utils/loader";
+import store from './store';
+import router from './router'
+import { sync } from 'vuex-router-sync'
+import App from './App';
+import VbComponents from './modules/vb/components';
 
-let store = loader.provider("store");
-let router = loader.provider("router");
+sync(store, router);
 
-let api = loader.api();
-api.init();
-let rootComponent = require("./App.vue");
+console.log(VbComponents);
 
-sync(store, router)
+Vue.use(VbComponents);
 
+import Api from './services/api';
+
+console.log(Api.article.index());
+
+console.log("no err");
 new Vue({
     router,
     store,
-    ...rootComponent // Object spread copying everything from App.vue
+    ...App // Object spread copying everything from App.vue
 }).$mount('app');

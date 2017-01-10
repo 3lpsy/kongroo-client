@@ -1,3 +1,0 @@
-export const SET_ALL_TAGS_SUCCESS = 'tag/mutations/SET_ALL_TAGS_SUCCESS'
-export const SET_ALL_TAGS_FAILURE = 'tag/mutations/SET_ALL_TAGS_FAILURE'
-export const APPEND_TAG_REPOSITORY_SUCCESS = 'tag/mutations/APPEND_TAG_REPOSITORY_SUCCESS'

@@ -28,6 +28,7 @@ module.exports = {
     "object-curly-even-spacing": "off",
     "no-trailing-spaces": "off",
     "space-unary-ops": "off",
+    "no-useless-escape": "off",
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
   }

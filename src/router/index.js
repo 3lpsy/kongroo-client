@@ -1,8 +1,21 @@
 import Vue from 'vue'
 import Router from "vue-router";
-import routes from "./routes/index";
 
 Vue.use(Router);
+
+import * as article from "./article";
+
+let routes = [
+    article.index,
+    article.show,
+    {
+        path: "/",
+        redirect: "/articles"
+    }
+];
+
+console.log(routes);
+
 
 export default new Router({
     linkActiveClass: 'active',
