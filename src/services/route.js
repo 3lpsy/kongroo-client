@@ -1,8 +1,8 @@
-const dropMethods = ['index', 'indexMa']
 
 export default class Route {
 
     constructor(template, params, options) {
+        // remove trailing slash, trailing :
         this.template = template;
         this.params = params;
         this.options = options;
