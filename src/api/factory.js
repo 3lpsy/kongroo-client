@@ -11,8 +11,20 @@ const defaultConfig = {
     timeout: 1000,
     headers: {
         'Authorization': 'Bearer ' + window.localStorage.getItem('token') || ''
-    },
-    withCredentials: true
+    }
+}
+
+const interceptors = {
+    response: {
+        success: (response) => {
+            console.log(response);
+            return response;
+        },
+        error: (error) => {
+            console.log("API ERROR");
+            return Promise.reject(error);
+        }
+    }
 }
 
 export default class Factory {
@@ -20,6 +32,7 @@ export default class Factory {
     constructor(config = {}) {
         this.config = Object.assign(defaultConfig, config);
         this.axios = Axios.create(this.config);
+        this.axios.interceptors.response.use(interceptors.response.success, interceptors.response.error);
     }
 
     getInstance() {

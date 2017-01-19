@@ -1,5 +1,8 @@
 export default {
     repo: {
-        articles: []
+        articles: [],
+        meta: {
+            paginations: []
+        }
     }
 }

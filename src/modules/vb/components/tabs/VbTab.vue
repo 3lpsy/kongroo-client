@@ -1,11 +1,24 @@
 <template lang="html">
-    <li class="">
+    <li :class="classes">
         <slot></slot>
     </li>
 </template>
 
 <script>
 export default {
+    props: {
+        active: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        classes() {
+            return {
+                'is-active': this.active
+            }
+        }
+    }
 }
 </script>
 

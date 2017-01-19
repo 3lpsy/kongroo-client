@@ -1,5 +1,5 @@
 
-import Transformer from "./transformer";
+import Transformer from "common/transformer";
 import moment from 'moment';
 
 export default class TagTransformer extends Transformer {
@@ -8,7 +8,7 @@ export default class TagTransformer extends Transformer {
         return {
             id: tag.id,
             name: tag.name,
-            timestamp: moment().format('X')
+            transformedAt: moment().format('X')
 
         };
     }

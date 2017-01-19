@@ -5,17 +5,17 @@ const types = {
 
 export {types};
 
-let getters =  {
+export default {
     [types.repo]: (state, getters) => {
         return state.repo;
     },
     [types.tags]: (state, getters) => {
-        let repo = getters(types.repo);
+        let repo = getters[types.repo];
+
         if (! repo) {
             return [];
         }
+
         return repo.tags;
     }
 }
-
-export default getters;

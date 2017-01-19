@@ -4,17 +4,24 @@ const types = {
 
 export {types};
 
-import Api from 'api';
+import api from 'api';
+import transformer from "tag/transformer"
+import {types as mutations} from "tag/store/mutations";
 
-let actions =  {
+export default  {
     [types.fetchTags]: (context, payload ) => {
 
         let query = payload.query || {};
 
         return new Promise((resolve, reject) => {
-            Api.tag.index({query}).then((response) => {
-                console.log(response);
-                resolve(response);
+            api.service('tag').index({query}).then((response) => {
+                if (response.status === 200 && response.data) {
+                    let tags = transformer.getCollection(response.data.tags);
+                    tags.map((tag) => {
+                        context.commit(mutations.INSERT_TAG, {tag});
+                    })
+                    resolve(response);
+                }
             }).catch((error) => {
                 reject(error);
             })
@@ -22,5 +29,3 @@ let actions =  {
 
     }
 }
-
-export default actions;

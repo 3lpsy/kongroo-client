@@ -5,11 +5,9 @@ export const index = {
     name: "article.index",
     component: IndexPage,
     beforeEnter: (route, redirect, next) => {
-        console.log("beforeEnter");
         next();
     },
     beforeRouteLeave: (route, redirect, next) => {
-        console.log("beforeRouteLeave");
         next();
     },
     meta: {
@@ -24,11 +22,9 @@ export const show = {
     name: "article.show",
     component: ShowPage,
     beforeEnter: (route, redirect, next) => {
-        console.log("beforeEnter");
         next();
     },
     beforeRouteLeave: (route, redirect, next) => {
-        console.log("beforeRouteLeave");
         next();
     }
 }

@@ -1,6 +1,7 @@
 
-import Transformer from "./transformer";
+import Transformer from "common/transformer";
 import moment from 'moment';
+
 export default class ArticleTransformer extends Transformer {
 
     static get (article) {

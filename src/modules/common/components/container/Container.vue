@@ -1,8 +1,6 @@
 <template>
     <div class="App--base">
-        <!-- <page-navbar></page-navbar> -->
         <slot></slot>
-        <p>Container.vue</p>
     </div>
 
 

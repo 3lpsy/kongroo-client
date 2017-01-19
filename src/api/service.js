@@ -4,16 +4,18 @@ const defaultConfig = {};
 
 export default class Service {
 
-    constructor(config = {}) {
+    constructor(name = "default", config = {}) {
+        this.name = name;
         config = Object.assign(config, defaultConfig);
         this.routes = {};
         this.axios = new Factory(config).getInstance();
     }
 
-    index(params, query) {
+    index(options) {
+        console.log(options);
         let route = this.routes.index;
-        let url = route.url(params);
-        return this.axios.get(url, {params: query})
+        let url = route.url(options.params);
+        return this.axios.get(url, {params: options.query})
     }
 
     store(params, data, query) {
@@ -36,5 +38,11 @@ export default class Service {
 
     addRoute(method, route) {
         this.routes[method] = route;
+    }
+
+    addRoutes(routes) {
+        Object.keys(routes).map((method) => {
+            this.addRoute(method, routes[method]);
+        });
     }
 }

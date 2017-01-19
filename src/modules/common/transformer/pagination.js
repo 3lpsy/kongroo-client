@@ -1,14 +1,17 @@
-import Transformer from "./transformer";
+import Transformer from "common/transformer";
+import moment from 'moment';
 
 export default class PaginationTransformer extends Transformer {
 
     static get (pagination) {
         return {
-            totalCount: pagination.count,
+            count: pagination.count,
+            total: pagination.total,
             totalPages: pagination.totalPages,
             currentPage: pagination.currentPage,
             limit: pagination.limit,
-            hasMore: pagination.hasMore
+            hasMore: pagination.hasMore,
+            transformedAt: moment().format('X')
         };
     }
 

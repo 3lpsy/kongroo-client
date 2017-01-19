@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition-group appear name="slide-fade" mode="out-in">
-            <div v-if="articleRepoArticles.length > 0" v-for="article in articleRepoArticles" :key="article.id">
+            <div v-if="articles && articles.length > 0" v-for="article in articles" :key="article.id">
                 <p>
                     {{article.id}}: {{article.title}}
 
@@ -13,7 +13,7 @@
                 key="show"
             > -->
             <!-- </article-preview> -->
-            <mugen-scroll :handler="onInfinite" :should-handle="!loading && isMorePagesExist" key="loading">
+            <mugen-scroll :handler="nextPage" :should-handle="shouldLoad" key="loading">
               loading...
             </mugen-scroll>
         </transition-group>
@@ -21,121 +21,112 @@
 </template>
 
 <script>
-import loader from "../../../utils/loader";
 import MugenScroll from 'vue-mugen-scroll'
+import queryTagIds from "tag/mixins/queryTagIds";
+import queryPaginator from "common/mixins/queryPaginator";
 
 export default {
-
+    mixins: [queryTagIds, queryPaginator],
     data() {
         return {
-            loading: false,
-            routeTags: [],
-            routePage: 1,
-            routeLimit: 15
+            booted: false,
+            loading: true,
+            reactToQueryPage: false
         };
     },
 
     computed: {
-        articleRepoArticles() {
-            if (this.articleRepo) {
-                return this.articleRepo.data;
+        articles() {
+            if (! this.repo) {
+                return [];
             }
-            return []
-        },
-        isMorePagesExist() {
-            if (this.paginatedMeta && this.paginatedMeta.pagination){
-                return !! this.paginatedMeta.pagination.hasMore;
+            if (! this.repo.articles) {
+                return []
             }
-            return false;
+            return this.repo.articles;
         },
-        articleRepo() {
-            return this.$store.getters['article/getters/articleRepository'];
+        pagination() {
+            if (! this.paginations && this.paginations.length < 1) {
+                return {}
+            }
+            return this.paginations[this.paginations.length - 1];
         },
-        paginatedArticles() {
-            return this.$store.getters['article/getters/paginatedArticles'];
+        paginations() {
+            if (! this.repo) {
+                return [];
+            }
+            if (! this.repo.meta) {
+                return []
+            }
+            if (! this.repo.meta.paginations) {
+                return []
+            }
+
+            return this.repo.meta.paginations;
         },
-        paginatedMeta() {
-            return this.$store.getters['article/getters/paginatedMeta'];
+        repo() {
+            return this.$store.getters['article/getters/repo'];
         },
+        shouldLoad() {
+            return ! this.loading && this.booted;
+        },
+
     },
 
     methods: {
-        onInfinite() {
-            console.log('on-infinite');
-            this.queryPaginatedArticles();
-            // increment page
-            // check history of repo for query
-            // if the query is not in the repo
-            // run query, add to repo
+        query() {
+            return {
+                page: this.queryPage,
+                limit: this.queryLimit,
+                total: this.queryTotal,
+                tags: this.queryTagIds
+            };
         },
-        updateRouteTagFilters() {
-            let routeTags = this.$route.query["tags[]"];
-            let tagsType = typeof routeTags;
-            let tags = tagsType !== 'array' ? routeTags : [routeTags];
-            this.routeTags = tags;
-        },
-        updateRoutePage() {
-            let routePage = this.$route.query.page;
-            this.routePage = routePage || 1;
-        },
-        updateRouteLimit() {
-            let routeLimit = this.$route.query.limit;
-            this.routeLimit = routeLimit || 5;
-        },
-        queryPaginatedArticles() {
-            let meta = {
-                limit: this.routeLimit,
-                page: this.routePage
-            }
-            let filters = {
-                tags: this.routeTags
-            }
+        nextPage() {
             this.loading = true;
-            this.$store.dispatch('article/actions/queryPaginated', meta, filters).then(() => {
-                console.log("article/actions/queryPaginated complete")
-                this.loading = false;
-            }).catch( (error) => {
-                this.loading = false;
-                console.log(error);
-            });
+            console.log("loadNextPage")
+            if (this.pagination.hasMore) {
+                console.log("hasMore")
+                let query = this.query();
+                query.page = query.page + 1;
+                this.$router.push({name: this.$router.name, query})
+            }
         },
+        loadArticlesFromQuery() {
+            this.loading = true;
+            let query = this.query();
+            return this.$store.dispatch("article/actions/fetchArticles", {query});
+        }
     },
 
     watch: {
-        '$route': function() {
-            this.updateRouteTagFilters();
-            this.updateRoutePage();
-            this.updateRouteLimt();
-            this.queryPaginatedArticles();
+        queryPage(val) {
+            console.log('queryPage');
+            if (this.reactToQueryPage) {
+                console.log('can reactToQueryPage');
+                this.loadArticlesFromQuery().then((response) => {
+                    this.loading = false;
+                });
+            }
+        },
+        queryTagIds(val) {
+
         }
     },
 
 
-    beforeCreated(){
-
-    },
-
-    created() {
-
-    },
-
-    beforeMount(){
-
-    },
-
     mounted() {
-        this.updateRouteTagFilters();
-        this.updateRoutePage();
-        this.updateRouteLimit();
-        this.queryPaginatedArticles();
+        this.loadArticlesFromQuery().then((response) => {
+            this.loading = false;
+            this.booted = true;
+            this.reactToQueryPage = true;
+        }).catch((error) => {
+            throw error;
+        })
     },
 
-    beforeDestroy() {
-
-    },
 
     components: {
-        ArticlePreview: loader.component("article", "article-preview"),
         MugenScroll,
     }
 };

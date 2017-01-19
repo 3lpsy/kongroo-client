@@ -1,51 +1,82 @@
 <template lang="html">
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <h1 class="title">
-                    Articles
-                </h1>
-                <h2 class="subtitle">
-                </h2>
-            </div>
-        </div>
-        <div class="hero-foot">
-            <div class="container has-text-centered">
-                <nav class="tabs is-boxed is-fullwidth">
-                    <ul>
-                        <li class="" v-for="tag in menuTags" v-if="tag.id">
-                            <app-link
-                                class="ArticlePreview__tag-link Link"
-                                r-route="article.index"
-                                :r-params="{}"
-                                :r-query="{'tags[]': [tag.id]}"
-                                :query-only="true">
-                                <span slot="link">
-                                    {{tag.name}}
-                                </span>
-                            </app-link>
-                        </li>
-                    </ul>
-                  </nav>
-            </div>
-        </div>
-    </section>
-
+    <vb-hero>
+        <vb-hero-body>
+            <vb-container centered>
+                <vb-hero-title>
+                      Articles
+                </vb-hero-title>
+            </vb-container>
+        </vb-hero-body>
+        <vb-hero-foot>
+            <vb-tabs>
+                <vb-tab v-for="tag in tabs" :active="isActiveTab(tag)">
+                    <router-link
+                        v-if="tag && tag.id"
+                        :to="{name: 'article.index', query: { 'tags[]': tag.id}}">
+                        {{tag.name}}
+                    </router-link>
+                </vb-tab>
+            </vb-tabs>
+        </vb-hero-foot>
+    </vb-hero>
 </template>
 
 <script>
-import loader from "../../../utils/loader";
+
+import queryTagIds from "tag/mixins/queryTagIds";
+
 export default {
+    mixins: [queryTagIds],
     computed: {
         tags() {
-            return this.$store.getters['tag/getters/tagRepository'];
+            return this.$store.getters['tag/getters/tags'];
         },
-        menuTags() {
-            return this.tags.slice(0, 5);
+        tabs() {
+            if (! this.tags) {
+                return [];
+            }
+
+            let count = 0;
+
+            return this.tags.map((tag) => {
+                count = count + 1;
+                if (count <= 5) {
+                    return tag;
+                }
+                return false;
+            }).filter(tag => !! tag);
         }
     },
-    components: {
-        AppLink: loader.link(),
+    methods: {
+        fetchTags() {
+            let query = {
+                sortBy: 'articleCount',
+                allTags: false
+            }
+            this.$store.dispatch("tag/actions/fetchTags", {query}).then((tags) => {
+                console.log('Fetched');
+            }).catch((error) => {
+                throw error;
+            });
+        },
+        isActiveTab(tag) {
+            if (! this.tags || this.tags.length < 1) {
+                return false;
+            }
+            if (! this.queryTagIds || this.queryTagIds.length !== 1) {
+                return false;
+            }
+            if (! tag || ! tag.id) {
+                return false;
+            }
+
+            return this.queryTagIds.findIndex((id) => {
+                return id === tag.id;
+            }) !== -1
+        }
+    },
+    mounted() {
+        this.fetchTags();
     }
 }
 </script>

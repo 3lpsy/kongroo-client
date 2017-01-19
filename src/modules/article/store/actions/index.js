@@ -4,23 +4,33 @@ const types = {
 
 export {types};
 
-import Api from 'api';
+import api from 'api';
+import articleTransformer from "article/transformer"
+import paginationTransformer from "common/transformer/pagination"
 
-let actions =  {
+import {types as mutations} from "article/store/mutations";
+
+export default  {
     [types.fetchArticles]: (context, payload ) => {
 
         let query = payload.query || {};
 
         return new Promise((resolve, reject) => {
-            Api.article.index({query}).then((response) => {
-                console.log(response);
-                resolve(response);
+            api.service('article').index({query}).then((response) => {
+                if (response.status === 200 && response.data) {
+
+                    let articles = articleTransformer.getCollection(response.data.articles);
+                    articles.map((article) => {
+                        context.commit(mutations.INSERT_ARTICLE, {article});
+                    });
+
+                    let pagination = paginationTransformer.get(response.data.meta.pagination);
+                    context.commit(mutations.APPEND_PAGINATION, {pagination})
+                    resolve(response);
+                }
             }).catch((error) => {
                 reject(error);
             })
         });
-
     }
 }
-
-export default actions;

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from "vuex";
-// import article from "./modules/article/store";
-// import tag from "./modules/tag/store";
+import article from "article/store";
+import tag from "tag/store";
+import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex);
 
@@ -10,8 +11,8 @@ const debug = true;
 export default new Vuex.Store({
 
     modules: {
-        // article,
-        // tag
+        article,
+        tag
     },
 
     /**
@@ -22,5 +23,5 @@ export default new Vuex.Store({
     /**
      * Plugins for Vuex
      */
-    // plugins: plugins
+    plugins: [createLogger()]
 });

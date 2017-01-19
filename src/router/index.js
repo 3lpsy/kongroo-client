@@ -14,9 +14,6 @@ let routes = [
     }
 ];
 
-console.log(routes);
-
-
 export default new Router({
     linkActiveClass: 'active',
     routes,

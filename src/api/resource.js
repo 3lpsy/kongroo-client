@@ -19,6 +19,15 @@ export default class Resource {
         this.extractParams(this.template);
     }
 
+    routes() {
+        return {
+            index: this.index(),
+            store: this.store(),
+            update: this.update(),
+            destroy: this.destroy(),
+        }
+    }
+
     index() {
         if (this.params === []) {
             return new Route(this.template, params, {});
@@ -67,7 +76,6 @@ export default class Resource {
 
     extractParams(template) {
         template = template || this.template;
-        console.log(template);
         let regex = new RegExp(/:(\w+)\/?/, 'g');
         let params = [];
         let param = regex.exec(template)
