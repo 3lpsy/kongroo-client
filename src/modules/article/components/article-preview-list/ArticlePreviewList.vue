@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition-group appear name="slide-fade" mode="out-in">
-            <div v-if="articles && articles.length > 0" v-for="article in articles" :key="article.id">
+            <div v-if="articles && articles.length > 0" v-for="article in paginate(articles, pagination)" :key="article.id">
                 <p>
                     {{article.id}}: {{article.title}}
 
@@ -14,7 +14,12 @@
             > -->
             <!-- </article-preview> -->
             <mugen-scroll :handler="nextPage" :should-handle="shouldLoad" key="loading">
-              loading...
+              <span v-if="hasMore">
+                  loading...
+              </span>
+              <span v-else>
+                  No More
+              </span>
             </mugen-scroll>
         </transition-group>
     </div>
@@ -24,9 +29,10 @@
 import MugenScroll from 'vue-mugen-scroll'
 import queryTagIds from "tag/mixins/queryTagIds";
 import queryPaginator from "common/mixins/queryPaginator";
+import paginate from "common/mixins/paginate";
 
 export default {
-    mixins: [queryTagIds, queryPaginator],
+    mixins: [queryTagIds, queryPaginator, paginate],
     data() {
         return {
             booted: false,
@@ -44,6 +50,12 @@ export default {
                 return []
             }
             return this.repo.articles;
+        },
+        hasMore() {
+            if (! this.pagination) {
+                return true;
+            }
+            return this.pagination.hasMore;
         },
         pagination() {
             if (! this.paginations && this.paginations.length < 1) {
@@ -82,6 +94,12 @@ export default {
                 tags: this.queryTagIds
             };
         },
+        firstPage() {
+            let query = this.query();
+            query.page = 1;
+            query.limit = 15;
+            this.$router.push({name: this.$router.name, query})
+        },
         nextPage() {
             this.loading = true;
             console.log("loadNextPage")
@@ -92,9 +110,10 @@ export default {
                 this.$router.push({name: this.$router.name, query})
             }
         },
-        loadArticlesFromQuery() {
+        loadArticlesFromQuery(customQuery) {
             this.loading = true;
             let query = this.query();
+            query = Object.assign(query, customQuery);
             return this.$store.dispatch("article/actions/fetchArticles", {query});
         }
     },
@@ -116,6 +135,7 @@ export default {
 
 
     mounted() {
+        this.firstPage();
         this.loadArticlesFromQuery().then((response) => {
             this.loading = false;
             this.booted = true;
