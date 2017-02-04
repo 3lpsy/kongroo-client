@@ -1,5 +1,7 @@
 const types = {
     fetchArticles: 'article/actions/fetchArticles',
+    fetchArticle: 'article/actions/fetchArticle',
+    clearArticles: 'article/actions/clearArticles',
 }
 
 export {types};
@@ -20,9 +22,7 @@ export default  {
                 if (response.status === 200 && response.data) {
 
                     let articles = articleTransformer.getCollection(response.data.articles);
-                    articles.map((article) => {
-                        context.commit(mutations.INSERT_ARTICLE, {article});
-                    });
+                    context.commit(mutations.INSERT_ARTICLES, {articles});
 
                     let pagination = paginationTransformer.get(response.data.meta.pagination);
                     context.commit(mutations.APPEND_PAGINATION, {pagination})
@@ -31,6 +31,32 @@ export default  {
             }).catch((error) => {
                 reject(error);
             })
+        });
+    },
+    [types.fetchArticle]: (context, payload ) => {
+
+        let articleId = payload.articleId;
+        let params = {articleId};
+        let query = payload.query || {};
+
+        return new Promise((resolve, reject) => {
+            api.service('article').show({params, query}).then((response) => {
+                if (response.status === 200 && response.data) {
+
+                    let article = articleTransformer.get(response.data.article);
+
+                    context.commit(mutations.INSERT_ARTICLE, {article});
+                    resolve(response);
+                }
+            }).catch((error) => {
+                reject(error);
+            })
+        });
+    },
+    [types.clearArticles]: (context) => {
+
+        return new Promise((resolve, reject) => {
+            context.commit(mutations.CLEAR_ARTICLES)
         });
     }
 }

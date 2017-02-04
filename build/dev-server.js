@@ -4,7 +4,7 @@ var webpack = require('webpack')
 var config = require('../config')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
-var webpackConfig = process.env.NODE_ENV === 'testing'
+var webpackConfig = process.env.NODE_ENV === 'production'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
 
@@ -18,7 +18,7 @@ var app = express()
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: "/",
   stats: {
     colors: true,
     chunks: false

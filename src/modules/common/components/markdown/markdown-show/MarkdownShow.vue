@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <vue-markdown :data-text="markdown.body">
-        </vue-markdown >
-    </div>
+    <vue-markdown :data-text="markdown.body">
+    </vue-markdown >
 </template>
 
 <script>

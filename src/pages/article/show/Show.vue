@@ -1,133 +1,56 @@
 <template>
     <div>
-        <!-- <app-view>
-            <section class="hero is-primary">
-                <div class="hero-body">
-                    <div class="container has-text-centered">
-                      <h1 class="title">
-                        Articles
-                      </h1>
-                      <h2 class="subtitle">
-                        {{csv(capitalizeArray(queryTags))}}
-                      </h2>
-                    </div>
-                </div>
-                <div class="hero-foot">
-                    <div class="container has-text-centered">
-                        <nav class="tabs is-boxed is-fullwidth">
-                            <ul>
-                                <li class="" v-for="tag in tagTags">
-                                    <app-link
-                                        v-if="tag.id"
-                                        class="ArticlePreview__tag-link Link"
-                                        r-route="article.index"
-                                        :r-params="{}"
-                                        :r-query="{'tags[]': [tag.id]}"
-                                        :query-only="true">
-                                        <span slot="link">
-                                            {{capitalizeWords(tag.name)}}
-                                        </span>
-                                    </app-link>
-                                </li>
-                            </ul>
-                          </nav>
-                    </div>
-                </div>
-            </section>
-             <br><br>
-            <div class="container">
-                <article-show>
-                </article-show>
-            </div>
-        </app-view> -->
+        <page-container>
+            <index-hero>
+            </index-hero>
+            <!-- <br><br> -->
+            <vb-section>
+                <vb-container>
+                    <vb-columns>
+                        <vb-column class="is-three-quarters-desktop">
+                            <article-show>
+                            </article-show>
+                        </vb-column>
+                        <vb-column class="is-one-quarter-desktop">
+                            <tag-side-menu>
+                            </tag-side-menu>
+                        </vb-column>
+                    </vb-columns>
+                </vb-container>
+            </vb-section>
+        </page-container>
     </div>
 </template>
 
 <script>
+import PageContainer from 'pages/article/container/Container.vue';
+import IndexHero from 'pages/article/index/IndexHero.vue';
+import ArticleShow from 'article/components/article-show/ArticleShow';
+import TagSideMenu from 'tag/components/tag-side-menu/TagSideMenu';
 
 export default {
-
     data() {
         return {
+            booted: false
         };
     },
 
     computed: {
-        tagTags() {
-            return this.tags.slice(0, 5);
-        },
-        queryTags() {
-            let tags = this.$route.query["tags[]"] || [];
-            if (! Array.isArray(tags)) {
-                return [tags];
-            }
-            return tags;
-        },
-        queryPage() {
-            return this.$route.query.page || 1
-        },
-        tags() {
-            return this.$store.getters.paginatedTags;
-        }
+
     },
 
     methods: {
-        getArticle(...args) {
-            this.$store.dispatch('getArticle', ...args)
-        },
-        capitalizeWord(word) {
-            return word[0].toUpperCase() + word.substr(1);
-        },
-        capitalizeWords(str) {
-            return str
-                .toLowerCase()
-                .split(' ')
-                .map(function(word) {
-                    return word[0].toUpperCase() + word.substr(1);
-                })
-                .join(' ');
-        },
-        capitalizeArray(wordArray) {
-            return wordArray.map(word => {
-                return this.capitalizeWords(word)
-            });
-        },
-        csv(array) {
-            return array.join(",").trim(',');
-        },
-        getPaginatedTags(...args) {
-            this.$store.dispatch('getPaginatedTags', ...args)
-        },
-
-    },
-    '$route': function() {
-        this.getArticle();
-    },
-
-    beforeCreated(){
-
-    },
-
-    created() {
-
-    },
-
-    beforeMount(){
 
     },
 
     mounted() {
-        // this.getArticle(this.$route.params.articleId);
-        // this.getPaginatedTags({});
-
-    },
-
-    beforeDestroy(){
-
     },
 
     components: {
-
+        PageContainer,
+        IndexHero,
+        ArticleShow,
+        TagSideMenu
     }
 };
 </script>

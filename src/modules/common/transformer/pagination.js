@@ -8,7 +8,7 @@ export default class PaginationTransformer extends Transformer {
             count: pagination.count,
             total: pagination.total,
             totalPages: pagination.totalPages,
-            currentPage: pagination.currentPage,
+            page: pagination.currentPage,
             limit: pagination.limit,
             hasMore: pagination.hasMore,
             transformedAt: moment().format('X')

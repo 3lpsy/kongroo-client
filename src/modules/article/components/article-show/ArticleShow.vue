@@ -1,12 +1,12 @@
 <template>
     <div>
         <transition name="slide-fade" mode="out-in">
-            <article class="container" v-if="article.id" key="show">
+            <article class="container" v-if="article && article.id" key="show">
                 <div class="content">
-                    <article-meta :data-article="article">
-                    </article-meta>
-                    <article-title :data-article="article">
-                    </article-title>
+                    <vb-heading>
+                        <article-title :data-article="article">
+                        </article-title>
+                    </vb-heading>
                     <article-section-show
                         v-for="section in article.sections"
                         :data-section="section"
@@ -23,44 +23,42 @@
 </template>
 
 <script>
-    import loader from "../../../utils/loader";
-    export default {
-        props: {
+import ArticleAuthor from 'article/components/article-show/ArticleAuthor';
+import ArticleTitle from 'article/components/article-show/ArticleTitle';
+import ArticleMeta from 'article/components/article-show/ArticleMeta';
+import ArticleSectionShow from 'article/components/section-show/SectionShow';
+import Spinner from 'common/components/spinners/ClipSpinner';
 
+export default {
+    props: {
+
+    },
+    computed: {
+        activeId () {
+            return this.$store.getters['article/getters/activeId'];
         },
-        computed: {
-            article () {
-                return this.$store.getters.article;
-            }
-        },
-
-        beforeCreated () {
-
-        },
-
-        created () {
-
-        },
-
-        beforeMount () {
-
-        },
-
-        mounted () {
-        },
-
-        beforeDestroy () {
-
-        },
-
-        components: {
-            ArticleTitle: loader.component("article", "article-show", "article-title"),
-            ArticleMeta: loader.component("article", "article-show", "article-meta"),
-            ArticleSectionShow: loader.component("section", "section-show"),
-            Spinner: loader.spinner("clip")
-
+        article () {
+            return this.$store.getters['article/getters/article'];
         }
+    },
+
+    mounted() {
+        if (! this.article && this.activeId) {
+            this.$store.dispatch('article/actions/fetchArticle', {articleId: this.activeId})
+                .then((response) => {
+                }
+            )
+        }
+    },
+
+    components: {
+        ArticleTitle,
+        ArticleMeta,
+        ArticleAuthor,
+        ArticleSectionShow,
+        Spinner
     }
+}
 
 </script>
 

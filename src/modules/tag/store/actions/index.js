@@ -17,9 +17,8 @@ export default  {
             api.service('tag').index({query}).then((response) => {
                 if (response.status === 200 && response.data) {
                     let tags = transformer.getCollection(response.data.tags);
-                    tags.map((tag) => {
-                        context.commit(mutations.INSERT_TAG, {tag});
-                    })
+                    context.commit(mutations.INSERT_TAGS, {tags});
+
                     resolve(response);
                 }
             }).catch((error) => {

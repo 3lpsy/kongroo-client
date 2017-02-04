@@ -3,7 +3,10 @@
         <vb-hero-body>
             <vb-container centered>
                 <vb-hero-title>
-                      Articles
+                    <router-link
+                        :to="{name: 'article.index'}">
+                        Articles
+                    </router-link>
                 </vb-hero-title>
             </vb-container>
         </vb-hero-body>
@@ -48,17 +51,6 @@ export default {
         }
     },
     methods: {
-        fetchTags() {
-            let query = {
-                sortBy: 'articleCount',
-                allTags: false
-            }
-            this.$store.dispatch("tag/actions/fetchTags", {query}).then((tags) => {
-                console.log('Fetched');
-            }).catch((error) => {
-                throw error;
-            });
-        },
         isActiveTab(tag) {
             if (! this.tags || this.tags.length < 1) {
                 return false;
@@ -74,9 +66,6 @@ export default {
                 return id === tag.id;
             }) !== -1
         }
-    },
-    mounted() {
-        this.fetchTags();
     }
 }
 </script>

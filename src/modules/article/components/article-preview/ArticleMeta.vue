@@ -2,7 +2,7 @@
     <div>
         <p class="ArticlePreview__meta">
             {{article.publishedAt.diffForHumans}} in
-                <app-link
+                <!-- <app-link
                     v-for="tag in article.tags"
                     v-if="tag.id"
                     class="ArticlePreview__tag-link Link"
@@ -13,22 +13,18 @@
                     <span slot="link">
                         {{tag.name}} <span v-if="! isLastTag(tag)">,</span>
                     </span>
-                </app-link>
+                </app-link> -->
         </p>
     </div>
 </template>
 
 <script>
-    import loader from "../../../utils/loader";
-
     export default {
 
         props: {
-
             dataArticle: {
                 required: true
             }
-
         },
 
         computed: {
@@ -46,32 +42,6 @@
                 }
                 return false;
             }
-
-        },
-
-        beforeCreated () {
-
-        },
-
-        created () {
-
-        },
-
-        beforeMount () {
-
-        },
-
-        mounted () {
-
-        },
-
-        beforeDestroy () {
-
-        },
-
-        components: {
-
-            AppLink: loader.link()
 
         }
     }

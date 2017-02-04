@@ -26,7 +26,7 @@
 
                     <div class="content">
                         {{article.subTitle}}
-                        <app-link
+                        <!-- <app-link
                                 v-for="tag in article.tags"
                                 v-if="tag.id"
                                 class="ArticlePreview__tag-link Link"
@@ -37,9 +37,11 @@
                                 <span slot="link">
                                     #{{tag.name}} &nbsp;
                                 </span>
-                        </app-link>
+                        </app-link> -->
                         <br>
-                  <small>{{article.publishedAt.diffForHumans}}</small>
+                  <small>
+                      {{article.publishedAt.diffForHumans}}
+                  </small>
                 </div>
               </div>
             </div>
@@ -50,47 +52,29 @@
 </template>
 
 <script>
-    import loader from "../../../utils/loader";
 
-    export default {
+import ArticleTitle from 'article/components/article-preview/ArticleTitle';
+import ArticleMeta from 'article/components/article-preview/ArticleMeta';
 
-        props: {
-            dataArticle: {
-                required: true
-            }
-        },
+export default {
 
-        computed: {
-            article () {
-                return this.dataArticle
-            }
-        },
-
-        beforeCreated () {
-
-        },
-
-        created () {
-
-        },
-
-        beforeMount () {
-
-        },
-
-        mounted () {
-        },
-
-        beforeDestroy () {
-
-        },
-
-        components: {
-            ArticleTitle: loader.component("article", "article-preview", "article-title"),
-            ArticleMeta: loader.component("article", "article-preview", "article-meta"),
-            AppLink: loader.link()
+    props: {
+        dataArticle: {
+            required: true
         }
+    },
+
+    computed: {
+        article () {
+            return this.dataArticle
+        }
+    },
+
+    components: {
+        ArticleTitle,
+        ArticleMeta
     }
+}
 
 </script>
 

@@ -3,6 +3,32 @@ $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
 
-$primary: #fd6769;
+.ArticleShow__title {
+    margin-bottom: 0px;
+}
 
-@import "~bulma/bulma.sass";
+@charset "utf-8";
+
+@import "./utilities";
+@import "./variables";
+
+$primary: $black !default;
+
+$info: $blue;
+$success: $green;
+$warning: $yellow;
+$danger: $red;
+
+$light: $grey-lighter;
+$dark: $grey-dark;
+
+$text: $grey-dark;
+
+@import "~bulma/sass/base/base";
+@import "~bulma/sass/elements/elements";
+@import "~bulma/sass/components/components";
+@import "~bulma/sass/layout/layout";
+
+
+$icon-font-path: './../node_modules/videojs-font/fonts';
+@import "./../../node_modules/video.js/src/css/vjs.scss";

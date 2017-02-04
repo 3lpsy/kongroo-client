@@ -1,12 +1,18 @@
 <template>
     <div>
-         <h2 class="ArticlePreview__title">
-            <router-link
-                v-if="article.id"
-                :to="{name: 'article.show', params: {articleId: article.id}}">
-                {{article.title}}
-            </router-link>
-        </h2>
+        <vb-title>
+            {{article.title}}
+        </vb-title>
+        <vb-sub-title>
+            {{article.publishedAt.diffForHumans}} in
+                <router-link
+                    v-if="tag.id"
+                    v-for="tag in article.tags"
+                    :to="{name: 'article.index', query: { 'tags[]': tag.id}}"
+                    class="ArticlePreview__tag-link Link">
+                        {{tag.name}}
+                </router-link>
+        </vb-sub-title>
     </div>
 </template>
 
@@ -19,25 +25,6 @@
             }
         },
 
-        beforeCreated(){
-
-        },
-
-        created() {
-
-        },
-
-        beforeMount(){
-
-        },
-
-        mounted() {
-        },
-
-        beforeDestroy(){
-
-        },
-
         computed: {
             article() {
                 return this.dataArticle
@@ -48,6 +35,7 @@
 </script>
 
 <style>
+
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {

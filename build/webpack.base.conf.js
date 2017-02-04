@@ -1,7 +1,6 @@
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   entry: {
@@ -17,16 +16,18 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'vue': 'vue/dist/vue.common.js',
+    //   'appi': path.resolve(__dirname, '../../appi/'),
+      'vb': path.resolve(__dirname, '../../vb'),
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'api': path.resolve(__dirname, '../src/api'),
+      'store': path.resolve(__dirname, '../src/store'),
       'pages': path.resolve(__dirname, '../src/pages'),
       'errors': path.resolve(__dirname, '../src/errors'),
       'common': path.resolve(__dirname, '../src/modules/common'),
-      'vb': path.resolve(__dirname, '../src/modules/vb'),
+      'filters': path.resolve(__dirname, '../src/filters'),
       'article': path.resolve(__dirname, '../src/modules/article'),
       'tag': path.resolve(__dirname, '../src/modules/tag')
-
     }
   },
   resolveLoader: {
@@ -37,25 +38,25 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: [path.resolve(__dirname, '../../appi/'), path.resolve(__dirname, '../../vb/'), path.resolve(__dirname, '../')],
         exclude: /node_modules/
       },
       {
         test: /\.js$/,
         loader: 'eslint',
-        include: projectRoot,
+        include: [path.resolve(__dirname, '../../appi/'), path.resolve(__dirname, '../../vb/'), path.resolve(__dirname, '../')],
         exclude: /node_modules/
       }
     ],
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue',
       },
       {
         test: /\.js$/,
         loader: 'babel',
-        include: projectRoot,
+        include: [path.resolve(__dirname, '../../appi/'), path.resolve(__dirname, '../../vb/'), path.resolve(__dirname, '../')],
         exclude: /node_modules/
       },
       {

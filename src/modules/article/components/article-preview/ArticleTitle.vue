@@ -23,25 +23,6 @@
             article () {
                 return this.dataArticle
             }
-        },
-
-        beforeCreated () {
-
-        },
-
-        created () {
-
-        },
-
-        beforeMount () {
-
-        },
-
-        mounted () {
-        },
-
-        beforeDestroy () {
-
         }
 
     }

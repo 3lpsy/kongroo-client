@@ -2,23 +2,17 @@
     <div>
         <p class="ArticlePreview__meta">
             {{article.publishedAt.diffForHumans}} in
-                <app-link
-                    v-for="tag in article.tags"
+                <router-link
                     v-if="tag.id"
-                    class="ArticlePreview__tag-link Link"
-                    r-route="article.index"
-                    :r-params="{}"
-                    :r-query="{'tags[]': [tag.id]}">
-                    <span slot="link">
-                        {{tag.name}} <span v-if="! isLastTag(tag)">,</span>
-                    </span>
-                </app-link>
+                    v-for="tag in article.tags"
+                    :to="{name: 'article.index', query: { 'tags[]': tag.id}}"
+                    class="ArticlePreview__tag-link Link">
+                        {{tag.name}}
+                </router-link>
             </div>
 </template>
 
 <script>
-
-    import loader from "../../../utils/loader";
 
     export default {
 
@@ -31,49 +25,10 @@
         computed: {
             article() {
                 return this.dataArticle
-            }
-        },
-
-        methods: {
-            isLastTag: function(tag) {
-                const lastIndex = this.article.tags.length - 1;
-                if (this.article.tags.indexOf(tag) === lastIndex) {
-                    return true;
-                }
-                return false;
             },
 
-            updateTag: function(tag) {
-                let promise =  new Promise( (resolve, reject) => {
-                    resolve("hello");
-                    reject();
-                });
-                return promise;
-            }
-
-        },
-
-        beforeCreated () {
-
-        },
-
-        created () {
-
-        },
-
-        beforeMount () {
-
-        },
-
-        mounted () {
-        },
-
-        beforeDestroy () {
-
-        },
-        components: {
-            AppLink: loader.link()
         }
+
     }
 
 </script>

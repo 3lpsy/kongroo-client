@@ -4,7 +4,7 @@ import store from './store';
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import App from './App';
-import VbComponents from './modules/vb/components';
+import VbComponents from 'vb';
 
 sync(store, router);
 

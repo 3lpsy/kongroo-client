@@ -17,14 +17,27 @@ export const index = {
 
 import ShowPage from 'pages/article/show/Show.vue';
 
+import store from 'store';
+
 export const show = {
     path: "/articles/:articleId",
     name: "article.show",
     component: ShowPage,
-    beforeEnter: (route, redirect, next) => {
+    beforeEnter: (to, from, next) => {
+        let articleId = to.params.articleId;
+
+        if (! articleId) {
+            // handle error
+        }
+
+        articleId = parseInt(articleId);
+                
+        store.commit("article/mutations/SET_ACTIVE_ID", {articleId});
+
         next();
     },
-    beforeRouteLeave: (route, redirect, next) => {
+    beforeRouteLeave: (to, from, next) => {
+        store.commit("article/mutations/SET_ACTIVE_ID", {articleId: null});
         next();
     }
 }

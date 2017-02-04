@@ -2,7 +2,9 @@ export default {
     repo: {
         articles: [],
         meta: {
-            paginations: []
+            paginations: [],
+            queries: []
         }
-    }
+    },
+    activeId: null
 }
