@@ -31,7 +31,7 @@ export const show = {
         }
 
         articleId = parseInt(articleId);
-                
+
         store.commit("article/mutations/SET_ACTIVE_ID", {articleId});
 
         next();

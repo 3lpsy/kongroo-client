@@ -1,8 +1,8 @@
 <template>
     <div>
-        <page-container>
+        <app-container :footer="true">
             <slot></slot>
-        </page-container>
+        </app-container>
     </div>
 
 
@@ -10,7 +10,7 @@
 
 <script>
 
-import PageContainer from 'common/components/container/Container.vue';
+import AppContainer from 'common/components/container/Container.vue';
 
 export default {
     methods: {
@@ -31,7 +31,7 @@ export default {
         this.fetchTags();
     },
     components: {
-        PageContainer
+        AppContainer
     }
 };
 </script>

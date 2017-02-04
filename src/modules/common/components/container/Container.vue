@@ -1,6 +1,7 @@
 <template>
     <div class="App--base">
         <slot></slot>
+        <app-footer v-if="footer"></app-footer>
     </div>
 
 
@@ -8,13 +9,16 @@
 
 <script>
 
-// import PageNavbar from 'common/components/navbar/Navbar'
+import AppFooter from 'common/components/footer/Footer'
 
 export default {
-    mounted () {
+    props: {
+        footer: {
+            default: false
+        }
     },
     components: {
-        // PageNavbar
+        AppFooter
     }
 };
 </script>
