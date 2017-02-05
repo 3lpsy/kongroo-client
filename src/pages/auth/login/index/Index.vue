@@ -17,11 +17,14 @@
                                 <p class="control">
                                     <input v-model="creds.passowrd" class="input" type="password" placeholder="●●●●●●●">
                                 </p>
-                                <div class="notification is-danger" v-if="errors && errors.length > 0">
-                                    <button class="delete"></button>
+                                <div class="notification is-danger"
+                                    v-if="errors && Object.keys(errors).length > 0"
+                                >
+                                    <button class="delete" @click="clearErrors">
+                                    </button>
                                     <ul>
                                         <li v-for="error in errors">
-                                            - {{error.message}}
+                                            {{error.text}}
                                         </li>
                                     </ul>
                                 </div>
@@ -52,9 +55,8 @@ export default {
     data() {
         return {
             booted: false,
-            errors: [],
+            errors: {},
             creds: {
-
             }
         };
     },
@@ -70,13 +72,21 @@ export default {
                 let token = response.data.token;
                 this.localStorage.set("auth_token", token);
             }).catch((error) => {
-                console.log('error');
+                let response = error.response;
+                if (response.status === 401) {
+                    let authMessages = response.data.meta.errors.auth;
+                    this.errors = authMessages;
+                    return;
+                }
                 throw error;
             });
 
         },
         goBack() {
             this.$router.push({name: 'article.index'});
+        },
+        clearErrors() {
+            this.errors = {};
         }
     },
 
