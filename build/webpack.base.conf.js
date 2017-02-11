@@ -25,6 +25,9 @@ module.exports = {
       'pages': path.resolve(__dirname, '../src/pages'),
       'errors': path.resolve(__dirname, '../src/errors'),
       'common': path.resolve(__dirname, '../src/modules/common'),
+      'auth': path.resolve(__dirname, '../src/modules/auth'),
+      'error': path.resolve(__dirname, '../src/modules/error'),
+      'message': path.resolve(__dirname, '../src/modules/message'),
       'filters': path.resolve(__dirname, '../src/filters'),
       'article': path.resolve(__dirname, '../src/modules/article'),
       'tag': path.resolve(__dirname, '../src/modules/tag')
