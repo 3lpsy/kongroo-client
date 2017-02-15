@@ -4,25 +4,21 @@
             Login
         </h1>
         <div class="box">
-             <label class="label">Email</label>
-             <p class="control">
+            <label class="label">Email</label>
+            <p class="control">
                  <input class="input" v-model="creds.email" type="text" placeholder="jsmith@example.org">
-             </p>
-             <label class="label">Password</label>
-             <p class="control">
-                 <input v-model="creds.password" class="input" type="password" placeholder="●●●●●●●">
-             </p>
-             <errors :errors="authErrors" v-if="hasAuthErrors"></errors>
-             <hr>
-             <p class="control">
+            </p>
+            <errors :errors="authErrors" v-if="hasAuthErrors"></errors>
+            <hr>
+            <p class="control">
                 <router-link class="button is-default" :to="{name: 'article.index'}">
                      Go Back
                 </router-link>
                 <!-- <span></span> -->
-               <button class="button is-primary is-pulled-right" @click="attemptLogin">
-                   Login
+               <button class="button is-primary is-pulled-right" @click="startLogin">
+                   Next
                </button>
-             </p>
+            </p>
         </div>
     </div>
 
@@ -35,15 +31,14 @@ export default {
     data() {
         return {
             creds: {
-                email: '',
-                password: ''
+                email: 'admin@example.com'
             }
         }
     },
     methods: {
-        attemptLogin() {
-            this.$store.dispatch('auth/actions/attemptLogin', {email: this.creds.email, password: this.creds.password}).then(() => {
-
+        startLogin() {
+            this.$store.dispatch('auth/actions/startAuth', {email: this.creds.email}).then((tokens) => {
+                
             }).catch(() => {
 
             });

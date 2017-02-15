@@ -11,8 +11,10 @@
 <script>
 
 import AppContainer from 'common/components/container/Container.vue';
+import tokens from 'auth/mixins/tokens';
 
 export default {
+    mixins: [tokens],
     mounted() {
     },
     components: {

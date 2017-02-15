@@ -16,6 +16,7 @@
     "bulma": "^0.1.2",
     "eslint-plugin-html": "^1.7.0",
     "font-awesome": "^4.7.0",
+    "jwt-decode": "^2.1.0",
     "moment": "^2.15.2",
     "remarkable": "^1.6.2",
     "sass-loader": "^4.0.2",

@@ -8,8 +8,13 @@ import * as auth from "./auth";
 
 let routes = [
     article.index,
+    
     article.show,
     auth.login.index,
+    auth.login.credential.index,
+    auth.login.email.index,
+    auth.login.sms.index,
+    auth.login.authenticate.index,
     {
         path: "/",
         redirect: "/articles"

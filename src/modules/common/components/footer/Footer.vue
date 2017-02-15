@@ -14,7 +14,7 @@
         <a class="icon" href="https://twitter.com/3lpsy">
           <i class="fa fa-twitter"></i>
         </a>
-        <router-link class="icon" :to="{name: 'auth.login.index'}">
+        <router-link class="icon" :to="{name: 'auth.login.credential.index'}">
             <i class="fa fa-sign-in"></i>
         </router-link>
       </p>

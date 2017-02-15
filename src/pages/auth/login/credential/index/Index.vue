@@ -5,11 +5,13 @@
             <div class="hero-body">
                 <div class="container">
                     <div class="columns is-vcentered">
-                        <start-auth-form class="column is-4 is-offset-4"></start-auth-form>
+                        <credential-form class="column is-4 is-offset-4">
+                        </credential-form>
                     </div>
                 </div>
             </div>
         </section>
+
     </page-container>
 </template>
 
@@ -17,7 +19,7 @@
 
 import PageContainer from 'pages/auth/login/container/Container.vue';
 import AppMessages from 'message/components/message/AppMessages.vue';
-import StartAuthForm from 'auth/components/forms/login/StartAuthForm.vue';
+import CredentialForm from 'auth/components/forms/login/CredentialForm.vue';
 
 export default {
     data() {
@@ -28,7 +30,7 @@ export default {
     components: {
         PageContainer,
         AppMessages,
-        StartAuthForm
+        CredentialForm
     }
 };
 </script>
