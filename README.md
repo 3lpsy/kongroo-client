@@ -1,3 +1,6 @@
+# Just another blogging Front End written in VueJS
+
+
 # vue-boilerplate
 
 > Vue 2.0 boilerplate，based on webpack and es6，includes vuex，vue-router，vue-resource, vue-auth
@@ -16,6 +19,8 @@ npm run build
 
 # run unit tests
 npm run unit
+# Just another blogging Front End written in VueJS
+
 
 # run e2e tests
 npm run e2e
